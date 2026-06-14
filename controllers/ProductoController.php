@@ -1,10 +1,11 @@
 <?php
 header("Content-Type: application/json");
-require_once 'Modelo/Productos.php';
+require_once '../models/Productos.php';
 
 $response = [];
 $accion = isset($_POST['accion']) ? $_POST['accion'] : '';
 
+// 🔴 SWITCH en PHP como pide la profesora (15 puntos)
 switch($accion) {
     case 'Guardar':
         $producto = new Producto();

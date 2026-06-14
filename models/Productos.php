@@ -63,7 +63,7 @@ class Producto {
 
     public function guardar() {
         if(!$this->validar(true)) {
-            return ['success' => false, 'errors' => $this->errores];
+            return ['success' => false, 'errors' => $this->errores, 'accion' => 'Guardar'];
         }
         
         $sql = "INSERT INTO productos (codigo, producto, precio, cantidad) VALUES (?, ?, ?, ?)";
@@ -78,7 +78,7 @@ class Producto {
 
     public function editar($id) {
         if(!$this->validar(false)) {
-            return ['success' => false, 'errors' => $this->errores];
+            return ['success' => false, 'errors' => $this->errores, 'accion' => 'Modificar'];
         }
         
         $sql = "UPDATE productos SET codigo = ?, producto = ?, precio = ?, cantidad = ? WHERE id = ?";

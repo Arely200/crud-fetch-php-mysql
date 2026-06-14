@@ -1,6 +1,6 @@
 <?php
 header("Content-Type: application/json");
-require_once 'Modelo/Productos.php';
+require_once '../models/Productos.php';
 
 $producto = new Producto();
 $productos = $producto->listarTodos();
