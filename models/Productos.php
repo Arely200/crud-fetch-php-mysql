@@ -3,6 +3,7 @@ require_once 'conexion.php';
 
 class Producto {
     private $db;
+    private $id;
     private $codigo;
     private $producto;
     private $precio;
@@ -11,6 +12,10 @@ class Producto {
 
     public function __construct() {
         $this->db = new DB();
+    }
+
+    public function setId($id) {
+        $this->id = $id;
     }
 
     public function setCodigo($codigo) {
@@ -29,11 +34,33 @@ class Producto {
         $this->cantidad = $cantidad;
     }
 
+    // Verificar si el código ya existe
+    public function existeCodigo($codigo, $idIgnorar = null) {
+        $sql = "SELECT id FROM productos WHERE codigo = ?";
+        $params = [$codigo];
+        
+        if($idIgnorar) {
+            $sql .= " AND id != ?";
+            $params[] = $idIgnorar;
+        }
+        
+        $result = $this->db->getOne($sql, $params);
+        return $result ? true : false;
+    }
+
     public function validar($esNuevo = true) {
         $this->errores = [];
         
         if(empty($this->codigo)) {
             $this->errores['codigo'] = 'El código es obligatorio';
+        }
+        
+        // Validación de código único
+        if(!empty($this->codigo) && empty($this->errores['codigo'])) {
+            $idIgnorar = $esNuevo ? null : $this->id;
+            if($this->existeCodigo($this->codigo, $idIgnorar)) {
+                $this->errores['codigo'] = ' El código ya existe. Use un código diferente';
+            }
         }
         
         if(empty($this->producto)) {
@@ -77,6 +104,7 @@ class Producto {
     }
 
     public function editar($id) {
+        $this->setId($id);
         if(!$this->validar(false)) {
             return ['success' => false, 'errors' => $this->errores, 'accion' => 'Modificar'];
         }
@@ -85,9 +113,9 @@ class Producto {
         $result = $this->db->executeQuery($sql, [$this->codigo, $this->producto, $this->precio, $this->cantidad, $id]);
         
         if($result) {
-            return ['success' => true, 'message' => 'Producto actualizado correctamente', 'accion' => 'Modificar'];
+            return ['success' => true, 'message' => ' Producto actualizado correctamente', 'accion' => 'Modificar'];
         } else {
-            return ['success' => false, 'message' => 'Error al actualizar el producto', 'accion' => 'Modificar'];
+            return ['success' => false, 'message' => ' Error al actualizar el producto', 'accion' => 'Modificar'];
         }
     }
 
@@ -100,6 +128,26 @@ class Producto {
     public function listarTodos() {
         $sql = "SELECT * FROM productos ORDER BY id DESC";
         return $this->db->getAll($sql);
+    }
+
+    //  FUNCIÓN ELIMINAR
+    public function eliminar($id) {
+        // Verificar si el producto existe
+        $sql = "SELECT id FROM productos WHERE id = ?";
+        $existe = $this->db->getOne($sql, [$id]);
+        
+        if(!$existe) {
+            return ['success' => false, 'message' => 'Producto no encontrado', 'accion' => 'Eliminar'];
+        }
+        
+        $sql = "DELETE FROM productos WHERE id = ?";
+        $result = $this->db->executeQuery($sql, [$id]);
+        
+        if($result) {
+            return ['success' => true, 'message' => ' Producto eliminado correctamente', 'accion' => 'Eliminar'];
+        } else {
+            return ['success' => false, 'message' => 'Error al eliminar el producto', 'accion' => 'Eliminar'];
+        }
     }
 }
 ?>

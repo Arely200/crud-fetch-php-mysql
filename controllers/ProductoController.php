@@ -5,7 +5,7 @@ require_once '../models/Productos.php';
 $response = [];
 $accion = isset($_POST['accion']) ? $_POST['accion'] : '';
 
-// 🔴 SWITCH en PHP como pide la profesora (15 puntos)
+
 switch($accion) {
     case 'Guardar':
         $producto = new Producto();
@@ -57,6 +57,20 @@ switch($accion) {
                 'success' => false,
                 'message' => 'Ingrese un código para buscar',
                 'accion' => 'Buscar'
+            ];
+        }
+        break;
+        
+    // NUEVO CASO ELIMINAR
+    case 'Eliminar':
+        if(isset($_POST['id']) && !empty($_POST['id'])) {
+            $producto = new Producto();
+            $response = $producto->eliminar($_POST['id']);
+        } else {
+            $response = [
+                'success' => false,
+                'message' => 'ID de producto no proporcionado',
+                'accion' => 'Eliminar'
             ];
         }
         break;

@@ -1,0 +1,176 @@
+
+/* Fondo general */
+body.bg-light {
+    background-color: #f0f2f5 !important;
+}
+
+/* TARJETAS (CARDS)*/
+
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+/*ENCABEZADOS DE TARJETAS */
+
+/* Encabezado - Formulario (Azul) */
+.card-header.bg-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border-radius: 15px 15px 0 0 !important;
+    padding: 20px !important;
+}
+
+/* Encabezado - Tabla (Oscuro) */
+.card-header.bg-dark {
+    background: linear-gradient(135deg, #2d3436 0%, #000000 100%) !important;
+    border-radius: 15px 15px 0 0 !important;
+    padding: 18px 20px !important;
+}
+
+.card-header h3, 
+.card-header h4 {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.card-header .small {
+    font-size: 0.85rem;
+    opacity: 0.85;
+    font-weight: 300;
+}
+
+/*FORMULARIO */
+
+.form-label {
+    font-weight: 600;
+    color: #2d3436;
+    font-size: 0.9rem;
+}
+
+.form-control {
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+    padding: 12px 15px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+/* 
+   BOTONES
+    */
+
+.btn {
+    border-radius: 50px;
+    padding: 10px 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Botón Guardar (Verde) */
+.btn-success {
+    background: linear-gradient(135deg, #00b894 0%, #00cec9 100%) !important;
+    border: none !important;
+}
+
+/* Botón Modificar (Amarillo) */
+.btn-warning {
+    background: linear-gradient(135deg, #fdcb6e 0%, #f39c12 100%) !important;
+    border: none !important;
+    color: #2d3436 !important;
+}
+
+/* Botón Buscar (Azul) */
+.btn-info {
+    background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%) !important;
+    border: none !important;
+    color: white !important;
+}
+
+/* Botón Limpiar (Gris) */
+.btn-secondary {
+    background: linear-gradient(135deg, #b2bec3 0%, #636e72 100%) !important;
+    border: none !important;
+}
+
+/* Botón Eliminar (Rojo) */
+.btn-danger {
+    background: linear-gradient(135deg, #fd79a8 0%, #e17055 100%) !important;
+    border: none !important;
+    padding: 5px 12px;
+    font-size: 0.8rem;
+}
+
+/* TABLA*/
+
+.table {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table thead th {
+    background: #2d3436;
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    padding: 12px 15px;
+}
+
+.table tbody tr {
+    transition: all 0.2s ease;
+}
+
+.table tbody tr:hover {
+    background-color: rgba(102, 126, 234, 0.05);
+}
+
+.table tbody td {
+    padding: 12px 15px;
+    vertical-align: middle;
+}
+
+/*TEXTOS Y TÍTULOS*/
+
+.text-center {
+    text-align: center;
+}
+
+.mb-0 {
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px !important;
+    }
+    
+    .btn {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+        margin: 3px !important;
+    }
+    
+    .card-header h3 {
+        font-size: 1.3rem;
+    }
+    
+    .card-header h4 {
+        font-size: 1.1rem;
+    }
+}

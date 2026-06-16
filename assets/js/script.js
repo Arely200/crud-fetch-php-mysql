@@ -9,7 +9,7 @@ async function listarProductos() {
         
         const tbody = document.getElementById('tablaProductos');
         if(productos.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" class="text-center">No hay productos registrados</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center">No hay productos registrados</td></tr>';
             return;
         }
         
@@ -20,6 +20,11 @@ async function listarProductos() {
                 <td>${producto.producto}</td>
                 <td>$${producto.precio}</td>
                 <td>${producto.cantidad}</td>
+                <td>
+                    <button class="btn btn-danger btn-sm" onclick="eliminarProducto(${producto.id}, '${producto.codigo}')">
+                        <i class="fas fa-trash"></i> Eliminar
+                    </button>
+                </td>
             </tr>
         `).join('');
     } catch(error) {
@@ -155,7 +160,61 @@ function buscarProducto() {
     });
 }
 
-// 🔴 IMPORTANTE: Función con SWITCH como pide la profesora (10 puntos) 🔴
+// FUNCIÓN ELIMINAR PRODUCTO
+async function eliminarProducto(id, codigo) {
+    const confirmacion = await Swal.fire({
+        title: '¿Eliminar producto?',
+        text: `¿Estás seguro de eliminar el producto con código: ${codigo}?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    });
+    
+    if(confirmacion.isConfirmed) {
+        try {
+            const formData = new FormData();
+            formData.append('accion', 'Eliminar');
+            formData.append('id', id);
+            
+            const response = await fetch('../controllers/ProductoController.php', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            
+            if(result.success) {
+                await Swal.fire({
+                    icon: 'success',
+                    title: 'Eliminado',
+                    text: result.message,
+                    confirmButtonColor: '#28a745'
+                });
+                listarProductos();
+            } else {
+                await Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: result.message,
+                    confirmButtonColor: '#dc3545'
+                });
+            }
+        } catch(error) {
+            console.error('Error:', error);
+            await Swal.fire({
+                icon: 'error',
+                title: 'Error de conexión',
+                text: 'No se pudo conectar con el servidor',
+                confirmButtonColor: '#dc3545'
+            });
+        }
+    }
+}
+
+ 
 function procesarAccion(accion, formData) {
     switch(accion) {
         case 'Guardar':
@@ -194,8 +253,6 @@ function procesarAccion(accion, formData) {
     }
 }
 
-// ========== EVENTOS ==========
-// Evento Guardar
 document.getElementById('btnGuardar').addEventListener('click', () => {
     const formData = new FormData(document.getElementById('productoForm'));
     procesarAccion('Guardar', formData);
@@ -217,7 +274,7 @@ document.getElementById('btnLimpiar').addEventListener('click', () => {
     procesarAccion('Limpiar', null);
 });
 
-// Cargar la lista de productos al iniciar
+// Cargar la lista de productos al iniciar la página
 document.addEventListener('DOMContentLoaded', () => {
     listarProductos();
 });
