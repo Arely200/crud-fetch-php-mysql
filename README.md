@@ -1,7 +1,7 @@
 # Laboratorio CRUD de Productos con PHP MVC, Fetch API y MySQL
 
-**Desarrollo de Software VII**
-**Universidad Tecnológica de Panamá (UTP)**
+- **Desarrollo de Software VII**
+- **Universidad Tecnológica de Panamá**
 
 ---
 
